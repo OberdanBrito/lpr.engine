@@ -1,0 +1,7 @@
+class Parametros {
+
+
+    constructor() {
+
+    }
+}

@@ -231,7 +231,7 @@ class Reportcenter {
 
         });
 
-        //this.layout.cells('b').progressOn();
+        this.layout.cells('b').progressOn();
         this.layout.cells('b').attachURL(this.relatorio.modelo, false, null);
 
     }
