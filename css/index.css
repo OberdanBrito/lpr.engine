@@ -1,0 +1,25 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side {
+    background-color: #29353B;
+    border-color: #29353B;
+}
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item {
+    background-color: #29353B;
+    border-color: #29353B;
+}
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item.dhxsidebar_item_selected {
+    background-color: #3a4a53;
+}
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item {
+    color: #fff;
+}

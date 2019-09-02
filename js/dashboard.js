@@ -1,0 +1,7 @@
+class Dashboard {
+
+    constructor(cell) {
+
+    }
+
+}

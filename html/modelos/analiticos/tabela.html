@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 99.4%;
+            overflow: hidden;
+            font-family: "Roboto", Arial, Tahoma, Verdana, sans-serif;
+        }
+
+        #table-body {
+            border: 2px solid dimgrey;
+            height: 97%;
+            width: 99%;
+        }
+
+        #table-head, #table-update, #table-foot, #table-data {
+            width: 100%;
+            height: 100%;
+        }
+
+        #table-head, #table-update td{
+            border-bottom: 1px solid grey;
+        }
+
+        #rpt-fields td {
+            border-top: 1px solid grey;
+        }
+
+        #table-update td, #table-foot, #rpt-fields, #rpt-data, #rpt-totals, #rpt-avgs, .rpt-group {
+            font-size: 80%;
+        }
+
+        #table-data, .rpt-title, .rpt-subtitle {
+            font-size: 90%;
+        }
+
+        #table-data thead td, .dsc-field {
+            font-weight: bold;
+            border-bottom: 1px solid grey;
+        }
+
+        td {
+            padding: 0;
+            margin: 0;
+        }
+
+        thead, tfoot {
+            height: 10%;
+            padding: 3%
+        }
+
+        tbody {
+            height: max-content;
+        }
+
+        .rpt-title {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .rpt-subtitle {
+            text-align: center;
+        }
+
+        .rpt-dsc {
+            width: 30%;
+        }
+
+        .rpt-logos {
+            width: 20%;
+        }
+
+        .rpt-counts td {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .rpt-totals td {
+            background-color: #313131;
+            color: #fff;
+        }
+
+        .rpt-avgs td {
+            background-color: #656565;
+            color: #fff;
+        }
+
+        .rpt-group {
+            width: 100%;
+            text-align: left;
+        }
+
+        .rpt-group tr td.cell-lstupt-f, .cell-group-f {
+            width: 10%;
+        }
+
+        .cell-lstupt {
+            width: 60%;
+        }
+
+        .cell-lstupt-f, .cell-dsc-f {
+            font-weight: bold;
+            text-align: end;
+            padding-right: 3px;
+            padding-left: 5px;
+        }
+
+        .cell-group-f {
+            font-weight: bold;
+            text-align: end;
+            height: 18px;
+        }
+
+        .cell-group-v {
+            height: 18px;
+        }
+
+        .row-p td {
+            height: 30px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .end {
+            text-align: end;
+        }
+
+    </style>
+</head>
+<body>
+    <template id="pagina">
+        <table id="table-body">
+        <thead>
+            <tr>
+                <td>
+                    <table id="table-head">
+                        <tr>
+                            <td class="rpt-logos" rowspan="2">Logo cliente</td>
+                            <td id="rpt-titulo" class="rpt-title"></td>
+                            <td class="rpt-logos" rowspan="2">Logo do sistema</td>
+                        </tr>
+                        <tr>
+                            <td id="rpt-subtitulo" class="rpt-subtitle">Sub título do relatório</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   <table id="table-update">
+                       <tr class="row-p">
+                           <td class="cell-lstupt-f">Atualizado em:</td>
+                           <td id="rpt-atualizado" class="cell-lstupt"></td>
+                           <td class="cell-lstupt-f">Responsável:</td>
+                           <td id="rpt-responsavel"></td>
+                           <td class="cell-lstupt-f">Páginas:</td>
+                           <td>1 de 5</td>
+                   </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="rpt-group">
+                        <tr class="row-p">
+                            <td class="cell-group-f">Cliente:</td>
+                            <td id="rpt-cliente" class="cell-group-v"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="rpt-group">
+                        <tr class="row-p">
+                            <td class="cell-group-f">Ponto:</td>
+                            <td id="rpt-ponto" class="cell-group-v"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table id="table-data" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr id="rpt-fields"></tr>
+                        </thead>
+                        <tbody id="rpt-data">
+                        </tbody>
+                        <tfoot id="rpt-totals">
+                        </tfoot>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <table id="table-foot">
+                        <tr>
+                            <td class="rpt-dsc dsc-field">Descrição:</td>
+                            <td colspan="2" class="dsc-field">
+                                Filtros:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="rpt-dsc">Relatório das passagens por ponto de acesso. Apresenta o ponto de acesso, as datas e as frequências de captura para o período selecionado ou os últimos 30 dias</td>
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td class="cell-dsc-f">Data inicial:</td>
+                                        <td>01/01/2019</td>
+                                        <td class="cell-dsc-f">Pontos de acesso:</td>
+                                        <td>Todos</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell-dsc-f">Data final:</td>
+                                        <td>12/12/2019</td>
+                                        <td class="cell-dsc-f">Campos:</td>
+                                        <td>Todos</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </template>
+</body>
+</html>
