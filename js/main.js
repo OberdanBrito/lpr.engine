@@ -59,13 +59,13 @@ dhtmlxEvent(window, "load", function () {
                 id: "listas",
                 text: "Listas",
                 icon: "reportcenter.svg",
-                selected: true
+                selected: false
             },
             {
                 id: "reportcenter",
                 text: "Centro de Relatórios",
                 icon: "reportcenter.svg",
-                selected: true
+                selected: false
             },
             {
                 id: "importexport",
@@ -84,6 +84,9 @@ dhtmlxEvent(window, "load", function () {
             case 'dashboard':
                 new Dashboard(cell);
                 break;
+            case 'parametros':
+                new Parametros(cell);
+                break;
             case 'reportcenter':
                 new Reportcenter(cell);
                 break;
@@ -94,6 +97,7 @@ dhtmlxEvent(window, "load", function () {
     });
 
     //new Dashboard(siderBar.cells('dashboard'));
-    new Reportcenter(siderBar.cells('reportcenter'));
+    //new Reportcenter(siderBar.cells('reportcenter'));
+    new Parametros(siderBar.cells('parametros'));
 
 });

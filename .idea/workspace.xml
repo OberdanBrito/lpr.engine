@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb1cfaf7-bb64-4df4-b521-d9dd1e99e1a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/parametros/parametros.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/reportcenter.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/reports/reportcenter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/reports.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/reports/reports.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/parametros/parametros.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/parametros/parametros.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../smart/public/instrucao.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/public/instrucao.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -70,7 +68,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1567433603920</updated>
-      <workItem from="1567433605260" duration="383000" />
+      <workItem from="1567433605260" duration="422000" />
+      <workItem from="1567434204096" duration="656000" />
     </task>
     <task id="LOCAL-00001" summary="Atualização inicial">
       <created>1567433707014</created>
@@ -79,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567433707014</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Nova classe de parâmetros">
+      <created>1567434023519</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1567434023519</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,7 +96,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -98,6 +106,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Atualização inicial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Atualização inicial" />
+    <MESSAGE value="Nova classe de parâmetros" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nova classe de parâmetros" />
   </component>
 </project>
