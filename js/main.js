@@ -44,6 +44,7 @@ dhtmlxEvent(window, "load", function () {
         icons_path: "./img/siderbar/",
         single_cell: false,
         autohide: false,
+        width: 170,
         header: false,
         items: [
             {
@@ -53,9 +54,9 @@ dhtmlxEvent(window, "load", function () {
                 selected: false
             },
             {
-                id: "parametros",
-                text: "Parametrizações",
-                icon: "parametros.svg",
+                id: "operacoes",
+                text: "Operações",
+                icon: "operacoes.svg",
                 selected: true
             },
             {
@@ -66,14 +67,14 @@ dhtmlxEvent(window, "load", function () {
             },
             {
                 id: "reportcenter",
-                text: "Central de Relatórios",
+                text: "Relatórios",
                 icon: "reportcenter.svg",
                 selected: false
             },
             {
                 id: "datamart",
-                text: "Fluxo de dados",
-                icon: "importexport.svg",
+                text: "Datamart",
+                icon: "datamart.svg",
                 selected: false
             },
             {type: "separator"},
@@ -94,8 +95,8 @@ dhtmlxEvent(window, "load", function () {
             case 'dashboard':
                 new Dashboard(cell);
                 break;
-            case 'parametros':
-                new Parametros(cell);
+            case 'operacoes':
+                new Operacoes(cell);
                 break;
             case 'listas':
                 new Listas(cell);
@@ -111,6 +112,6 @@ dhtmlxEvent(window, "load", function () {
 
     //new Dashboard(siderBar.cells('dashboard'));
     //new Reportcenter(siderBar.cells('reportcenter'));
-    new Parametros(siderBar.cells('parametros'));
+    new Operacoes(siderBar.cells('operacoes'));
 
 });
