@@ -1,0 +1,6 @@
+class Datamart {
+
+    constructor(cell) {
+
+    }
+}

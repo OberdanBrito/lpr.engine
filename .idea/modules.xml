@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../lpr.agent/.idea/lpr.agent.iml" filepath="$PROJECT_DIR$/../lpr.agent/.idea/lpr.agent.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/lpr.engine.iml" filepath="$PROJECT_DIR$/.idea/lpr.engine.iml" />
       <module fileurl="file://$PROJECT_DIR$/../smart/.idea/smart.iml" filepath="$PROJECT_DIR$/../smart/.idea/smart.iml" />
     </modules>

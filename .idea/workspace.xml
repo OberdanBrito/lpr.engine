@@ -2,11 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb1cfaf7-bb64-4df4-b521-d9dd1e99e1a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/parametros/toolbar/executar.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/parametros/toolbar/novo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/parametros/toolbar/remover.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/parametros/toolbar/salvar.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/siderbar/configuracoes.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/siderbar/listas.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/siderbar/parametros.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/configuracoes/configuracoes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/listas/listas.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../smart/modulos/slpr/builder_criterios/builder_criterios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/lpr.engine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lpr.engine.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/dashboard/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/importexport.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/datamart/datamart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/parametros/parametros.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/parametros/parametros.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/reports/reports.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/reports/reports.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_estacionamentos/triagem_estacionamentos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_estacionamentos/triagem_estacionamentos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_painel_estacionamentos/triagem_painel_estacionamentos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_painel_estacionamentos/triagem_painel_estacionamentos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_passagem/triagem_passagem.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_passagem/triagem_passagem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_tipo_acesso/triagem_tipo_acesso.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_tipo_acesso/triagem_tipo_acesso.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_vagas/triagem_vagas.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_vagas/triagem_vagas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_veiculos/triagem_veiculos.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_veiculos/triagem_veiculos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/anima/triagem_visitante/triagem_visitante.php" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/anima/triagem_visitante/triagem_visitante.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/modulos/slpr_error.log" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/modulos/slpr_error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../smart/public/instrucao.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/public/instrucao.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../smart/smart/instrucao.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../smart/smart/instrucao.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +51,81 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="builder: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="builder: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="cliente: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="cliente: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="slpr@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="slpr: database" type="162271b6:PgImplModel$Database" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
+    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -32,17 +140,29 @@
         <option value="oberdan &lt;oberdan@craos.net&gt;" />
       </list>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../lpr.agent" />
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectId" id="1QHgR93e4QkGyOrA6utC16NuZ9H" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../smart" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lpr.agent" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/img/parametros/toolbar" />
+      <recent name="$PROJECT_DIR$/img/siderbar" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js/transacoes" />
+      <recent name="$PROJECT_DIR$/js/dashboard" />
       <recent name="$PROJECT_DIR$/js/reports" />
     </key>
   </component>
@@ -58,6 +178,49 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="PHP Script.make.php">
+    <configuration name="Engine" type="FirefoxRemoteDebugType">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/lpr.engine/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="make.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/../smart/smart/make.php">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Firefox Remote.Engine" />
+      <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="PHP Script.make.php" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.make.php" />
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <option name="contentProportion" value="0.16280864" />
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@6e816f98" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@6e816f98" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@ace7c4e" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -69,7 +232,13 @@
       <option name="presentableId" value="Default" />
       <updated>1567433603920</updated>
       <workItem from="1567433605260" duration="422000" />
-      <workItem from="1567434204096" duration="656000" />
+      <workItem from="1567434204096" duration="854000" />
+      <workItem from="1567435145773" duration="18572000" />
+      <workItem from="1567511352390" duration="13000" />
+      <workItem from="1567514866916" duration="565000" />
+      <workItem from="1567531024037" duration="957000" />
+      <workItem from="1567537170580" duration="2891000" />
+      <workItem from="1567604161141" duration="1103000" />
     </task>
     <task id="LOCAL-00001" summary="Atualização inicial">
       <created>1567433707014</created>
@@ -85,7 +254,21 @@
       <option name="project" value="LOCAL" />
       <updated>1567434023519</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Criação do layout da página de parâmetros">
+      <created>1567435041190</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1567435041191</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Atualização do dump">
+      <created>1567605164214</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1567605164214</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,8 +288,12 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Atualização inicial" />
     <MESSAGE value="Nova classe de parâmetros" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nova classe de parâmetros" />
+    <MESSAGE value="Criação do layout da página de parâmetros" />
+    <MESSAGE value="Atualização do dump" />
+    <MESSAGE value="Serviço de critérios do lpg.engine" />
+    <option name="LAST_COMMIT_MESSAGE" value="Serviço de critérios do lpg.engine" />
   </component>
 </project>

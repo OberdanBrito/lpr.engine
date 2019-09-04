@@ -19,6 +19,8 @@ dhtmlxEvent(window, "load", function () {
     numeral.locale('pt');
     moment.locale('pt-BR');
 
+    let currentuser = 'oberdan';
+
 
     let layout = new dhtmlXLayoutObject({
         parent: document.body,
@@ -32,16 +34,17 @@ dhtmlxEvent(window, "load", function () {
         cells: [
             {
                 id: 'a',
-                text: 'Report',
+                text: 'LPR Engine',
                 header: true
             }
         ]
     }), siderBar = layout.cells('a').attachSidebar({
         parent: document.body,
-        template: "details",
+        template: "tiles",
         icons_path: "./img/siderbar/",
         single_cell: false,
-        header: true,
+        autohide: false,
+        header: false,
         items: [
             {
                 id: "dashboard",
@@ -52,25 +55,32 @@ dhtmlxEvent(window, "load", function () {
             {
                 id: "parametros",
                 text: "Parametrizações",
-                icon: "reportcenter.svg",
+                icon: "parametros.svg",
                 selected: true
             },
             {
                 id: "listas",
                 text: "Listas",
-                icon: "reportcenter.svg",
+                icon: "listas.svg",
                 selected: false
             },
             {
                 id: "reportcenter",
-                text: "Centro de Relatórios",
+                text: "Central de Relatórios",
                 icon: "reportcenter.svg",
                 selected: false
             },
             {
-                id: "importexport",
-                text: "Importação/Exportação",
+                id: "datamart",
+                text: "Fluxo de dados",
                 icon: "importexport.svg",
+                selected: false
+            },
+            {type: "separator"},
+            {
+                id: "configuracoes",
+                text: "Configurações",
+                icon: "configuracoes.svg",
                 selected: false
             }
         ]
@@ -87,11 +97,14 @@ dhtmlxEvent(window, "load", function () {
             case 'parametros':
                 new Parametros(cell);
                 break;
+            case 'listas':
+                new Listas(cell);
+                break;
             case 'reportcenter':
                 new Reportcenter(cell);
                 break;
-            case 'importexport':
-                new Importexport(cell);
+            case 'datamart':
+                new Datamart(cell);
                 break;
         }
     });

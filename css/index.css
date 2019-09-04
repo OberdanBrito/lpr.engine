@@ -23,3 +23,11 @@ html, body {
 .dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item {
     color: #fff;
 }
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_sep {
+    background-color: #536971;;
+}
+
+.dhxsidebar_base_material div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item:hover {
+    background-color: #6c8b9a;
+}
