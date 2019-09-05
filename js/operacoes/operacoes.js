@@ -17,7 +17,7 @@ class Operacoes {
                 {
                     id: 'a',
                     header: false,
-                    width:280
+                    width: 280
                 },
                 {
                     id: 'b',
@@ -26,35 +26,30 @@ class Operacoes {
             ]
         });
 
-
-        let myMenu = new dhtmlXMenuObject();
-        myMenu.loadStruct([
-            {id: "a", items:[
-                    {id: "a1", text: 'teste a'},
-                    {id: "a2", text: 'teste b'},
-                    {id: "a3", text: "teste c"}
-                ]}
-        ]);
-        myMenu.attachEvent("onClick",function (id) {
-            console.debug(id);
+        this.Tree = this.layout.cells('a').attachTreeView({
+            iconset: "font_awesome",
+            multiselect: false,
+            checkboxes: false,
+            dnd: true,
+            context_menu: true,
+            items: [
+                {
+                    id: 'lpr', text: "Redes", open: 1, im1: 'redes.svg',
+                    icon_color: "#3984ff",
+                    icons: {
+                        file: "fa-archway",
+                        folder_opened: "fa-archway",
+                        folder_closed: "fa-archway"
+                    },
+                    userdata: {
+                        tipo: 'lpr'
+                    }
+                }
+            ],
+            onload: that.CarregaRedes(that)
         });
-        myMenu.setIconsPath("../common/images/menu/");
-        myMenu.renderAsContextMenu();
 
-
-
-        this.Tree = this.layout.cells('a').attachTree();
-        this.Tree.setImagePath("./img/operacoes/tree/");
-        this.Tree.enableDragAndDrop(true);
-        this.Tree.enableContextMenu(myMenu);
-        this.Tree.setIconSize(22,22);
-        this.Tree.parse({id:0,
-            item:[
-                {id:'lpr',text:"Redes", im1:'redes.svg'},
-            ]
-        }, 'json');
-
-        /*this.Tree.attachEvent("onDblClick", function (id) {
+        this.Tree.attachEvent("onDblClick", function (id) {
 
             switch (that.Tree.getUserData(id, 'tipo')) {
                 case 'rede':
@@ -65,21 +60,20 @@ class Operacoes {
             }
 
             return true;
-        });*/
+        });
 
-        /*this.Tree.attachEvent("onBeforeContextMenu", function(id) {
-            console.debug(id);
+        this.Tree.attachEvent("onContextMenu", function (id, x, y) {
 
             let tipos_menu = {
                 lpr: [
-                    {id: "novo_rede", text: 'Adicionar nova rede'}
+                    {id: "nova_rede", text: 'Adicionar nova rede'}
                 ],
-                rede:[
-                    {id: "novo_unidade", text: 'Nova unidade'},
+                rede: [
+                    {id: "nova_unidade", text: 'Nova unidade'},
                     {type: "separator"},
                     {id: "remover_unidade", text: 'Remover'},
                 ],
-                unidade:[
+                unidade: [
                     {id: "novo_terminal", text: 'Novo terminal'},
                     {type: "separator"},
                     {id: "remover_terminal", text: 'Remover'},
@@ -107,59 +101,125 @@ class Operacoes {
                 items: menulist
             });
 
+            MenuContexto.attachEvent("onClick", function (id) {
+                switch (id) {
+                    case 'nova_rede':
+                        that.AdicionarRede(that.CarregaRedes);
+                        break;
+                }
+            });
+
             MenuContexto.showContextMenu(x, y);
             that.Tree.selectItem(id);
             return false;
-        });*/
-
-        this.CarregaRede();
+        });
 
     }
 
-    CarregaRede() {
+    CarregaRedes(that) {
 
-        let tree = this.Tree;
-
-        this.info.api = "/smart/public/cliente_rede";
-        this.info.Listar({
+        that.layout.cells('a').progressOn();
+        that.info.api = "/smart/public/cliente_rede";
+        that.info.Listar({
             callback: function (response) {
 
-                tree.setItemText('lpr', 'Redes (' + response.dados.length + ')');
-                response.dados.filter(function (item) {
+                that.Tree.setItemText('lpr', 'Redes (' + response.dados.length + ')');
+                that.Tree.deleteChildItems('lpr');
 
-                    tree.insertNewItem('lpr', item.id, item.nome, null, 'rede.svg', 'rede.svg');
-                    tree.setUserData(item.id, 'tipo', 'rede');
-                    tree.setUserData(item.id, 'nome', item.nome);
+                response.dados.findIndex(function (item, index) {
+                    let id = 're_' + item.id;
+                    that.Tree.addItem(id, item.nome, 'lpr', index);
+                    that.Tree.setUserData(id, 'id', item.id);
+                    that.Tree.setUserData(id, 'tipo', 'rede');
+                    that.Tree.setUserData(id, 'nome', item.nome);
+                    that.Tree.setIconColor(id, '#124c68');
+                    that.Tree.setItemIcons(id, {
+                        file: "fas fa-city",
+                        folder_opened: "fas fa-city",
+                        folder_closed: "fas fa-city",
+                    });
                 });
-
+                that.layout.cells('a').progressOff();
             }
         })
+
     }
 
-    CarregaUnidades(rede_id) {
+    CarregaUnidades(id) {
 
         let tree = this.Tree;
+        let node = tree.getUserData(id);
 
         this.info.api = "/smart/public/cliente_unidade";
         this.info.Listar({
             filter: {
-                rede: rede_id
+                rede: node.id
             },
             callback: function (response) {
 
-                tree.setItemText(rede_id, tree.getUserData(rede_id, 'nome') + ' ('+ response.dados.length + ')');
-                tree.deleteChildItems(rede_id);
+                tree.setItemText(id, node.nome + ' (' + response.dados.length + ')');
+                tree.deleteChildItems(id);
 
-                response.dados.filter(function (item) {
-                    tree.insertNewChild(rede_id, item.id, item.nome, null, 'unidade.svg');
-                    tree.setUserData(item.id, 'tipo', 'unidade');
-//                    tree.insertNewChild(item.id, rede_id + '_' + item.id, 'Terminais');
+                response.dados.findIndex(function (item, index) {
+                    let newid = 'un_' + item.id;
+                    tree.addItem(newid, item.nome, id, index);
+                    tree.setUserData(newid, 'tipo', 'unidade');
+                    tree.setIconColor(newid, '#4aabd1');
+                    tree.setItemIcons(newid, {
+                        file: "fas fa-car",
+                        folder_opened: "fas fa-car",
+                        folder_closed: "fas fa-car"
+                    })
                 });
-                //tree.openItem(rede_id);
+                tree.openItem(id);
             }
         })
-
-
     }
 
+    AdicionarRede(callback) {
+
+        let myWins = new dhtmlXWindows(), that = this;
+
+        myWins.createWindow({
+            id: 'adicionar_rede',
+            width: 300,
+            height: 150,
+            center: true,
+            move: false,
+            resize: false,
+            modal: true,
+            park: false,
+            caption: 'Adicionar nova rede',
+        });
+
+        myWins.window('adicionar_rede').button('park').hide();
+        myWins.window('adicionar_rede').button('minmax').hide();
+
+        myWins.window('adicionar_rede').attachToolbar({
+            icon_path: "./img/operacoes/toolbar/",
+            items: [
+                {id: "salvar", type: "button", text: "Salvar", img: "salvar.svg"},
+            ],
+            onClick: function () {
+                that.info.api = "/smart/public/cliente_rede";
+                that.info.Adicionar({
+                    data: form.getFormData(),
+                    last: 'id',
+                    callback: function (response) {
+                        if (response !== undefined) {
+                            myWins.window('adicionar_rede').close();
+                            callback(that);
+                        }
+
+                    }
+                })
+            }
+        });
+
+        let form = myWins.window('adicionar_rede').attachForm([
+            {type: 'settings', offsetLeft: 10, offsetTop: 20},
+            {type: 'input', name: 'nome', label: 'Nome da rede:'}
+        ]);
+
+    }
 }
