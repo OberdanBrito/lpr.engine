@@ -26,20 +26,35 @@ class Operacoes {
             ]
         });
 
+
+        let myMenu = new dhtmlXMenuObject();
+        myMenu.loadStruct([
+            {id: "a", items:[
+                    {id: "a1", text: 'teste a'},
+                    {id: "a2", text: 'teste b'},
+                    {id: "a3", text: "teste c"}
+                ]}
+        ]);
+        myMenu.attachEvent("onClick",function (id) {
+            console.debug(id);
+        });
+        myMenu.setIconsPath("../common/images/menu/");
+        myMenu.renderAsContextMenu();
+
+
+
         this.Tree = this.layout.cells('a').attachTree();
         this.Tree.setImagePath("./img/operacoes/tree/");
-        this.Tree.enableTreeLines(true);
-        this.Tree.setIconSize(16,16);
+        this.Tree.enableDragAndDrop(true);
+        this.Tree.enableContextMenu(myMenu);
+        this.Tree.setIconSize(22,22);
         this.Tree.parse({id:0,
             item:[
                 {id:'lpr',text:"Redes", im1:'redes.svg'},
             ]
         }, 'json');
 
-
-        this.Tree.enableContextMenu(true);
-
-        this.Tree.attachEvent("onDblClick", function (id) {
+        /*this.Tree.attachEvent("onDblClick", function (id) {
 
             switch (that.Tree.getUserData(id, 'tipo')) {
                 case 'rede':
@@ -50,9 +65,10 @@ class Operacoes {
             }
 
             return true;
-        });
+        });*/
 
-        /*this.Tree.attachEvent("onContextMenu", function(id, x, y){
+        /*this.Tree.attachEvent("onBeforeContextMenu", function(id) {
+            console.debug(id);
 
             let tipos_menu = {
                 lpr: [
@@ -111,7 +127,7 @@ class Operacoes {
                 tree.setItemText('lpr', 'Redes (' + response.dados.length + ')');
                 response.dados.filter(function (item) {
 
-                    tree.insertNewItem('lpr', item.id, item.nome, null, 'rede.svg');
+                    tree.insertNewItem('lpr', item.id, item.nome, null, 'rede.svg', 'rede.svg');
                     tree.setUserData(item.id, 'tipo', 'rede');
                     tree.setUserData(item.id, 'nome', item.nome);
                 });
@@ -135,13 +151,10 @@ class Operacoes {
                 tree.deleteChildItems(rede_id);
 
                 response.dados.filter(function (item) {
-                    let id = rede_id + '_' + item.id;
-                    tree.insertNewItem(rede_id, item.id, item.nome, null, 'unidade.svg');
-                    //tree.setUserData(id, 'tipo', 'unidade');
-
-                    //tree.insertNewItem('ter_'+id, 'Terminais', id);
+                    tree.insertNewChild(rede_id, item.id, item.nome, null, 'unidade.svg');
+                    tree.setUserData(item.id, 'tipo', 'unidade');
+//                    tree.insertNewChild(item.id, rede_id + '_' + item.id, 'Terminais');
                 });
-
                 //tree.openItem(rede_id);
             }
         })
