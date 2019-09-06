@@ -19,9 +19,8 @@ dhtmlxEvent(window, "load", function () {
     numeral.locale('pt');
     moment.locale('pt-BR');
 
-    let currentuser = 'oberdan';
-
-
+    sessionStorage.auth = JSON.stringify( {user: {login:'oberdan'}});
+    
     let layout = new dhtmlXLayoutObject({
         parent: document.body,
         pattern: '1C',
