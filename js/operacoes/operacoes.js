@@ -49,7 +49,7 @@ class Operacoes {
             onload: that.CarregaRedes(that)
         });
 
-        this.Tree.attachEvent("onDblClick", function (id) {
+        /*this.Tree.attachEvent("onDblClick", function (id) {
 
             switch (that.Tree.getUserData(id, 'tipo')) {
                 case 'rede':
@@ -61,7 +61,7 @@ class Operacoes {
             }
 
             return true;
-        });
+        });*/
 
         this.Tree.attachEvent("onContextMenu", function (id, x, y) {
 
@@ -69,17 +69,18 @@ class Operacoes {
 
             let tipos_menu = {
                 lpr: [
-                    {id: "nova_rede", text: 'Adicionar nova rede...', img: "rede.svg"}
+                    {id: "atualizar_rede", text: 'Atualizar', img: "atualizar.svg"},
+                    {id: "nova_rede", text: 'Adicionar nova rede...', img: "rede.svg"},
                 ],
                 rede: [
-                    {id: "editar_rede", text: 'Editar...', img: "informacoes.svg"},
-                    {id: "remover_rede", text: 'Remover', img: "remover.svg"},
+                    {id: "editar_rede", text: 'Editar...', img: "rede.svg"},
+                    {id: "desativar_rede", text: 'Desativar registro', img: "remover.svg"},
                     {type: "separator"},
                     {id: "adicionar_unidade", text: 'Adicionar nova unidade...', img: "unidade.svg"},
                 ],
                 unidade: [
                     {id: "editar_unidade", text: 'Editar...', img: "informacoes.svg"},
-                    {id: "remover_unidade", text: 'Remover', img: "remover.svg"},
+                    {id: "desativar_unidade", text: 'Desativar registro', img: "remover.svg"},
                     {type: "separator"},
                     {id: "novo_terminal", text: 'Adicionar novo terminal...', img: "unidade.svg"},
                 ]
@@ -108,20 +109,26 @@ class Operacoes {
 
             MenuContexto.attachEvent("onClick", function (id) {
                 switch (id) {
+                    case 'atualizar_rede':
+                        that.CarregaRedes();
+                        break;
                     case 'nova_rede':
                         new Rede().Adicionar();
                         break;
                     case 'editar_rede':
                         new Rede(node.id).Editar();
                         break;
-                    case 'remover_rede':
-                        new Rede(node.id).Remover();
+                    case 'desativar_rede':
+                        new Rede(node.id).Desativar();
                         break;
                     case 'adicionar_unidade':
+                        new Unidade(node.id).Adicionar();
                         break;
                     case 'editar_unidade':
+                        new Unidade(node.id).Editar();
                         break;
-                    case 'remover_unidade':
+                    case 'desativar_unidade':
+                        new Unidade(node.id).Desativar();
                         break;
                     case 'adicionar_terminal':
                         break;
@@ -133,7 +140,7 @@ class Operacoes {
             return false;
         });
 
-        addEventListener('AoModificar', function (e) {
+        addEventListener('AoModificar', function () {
             that.CarregaRedes();
         }, false);
 
@@ -143,11 +150,10 @@ class Operacoes {
 
         let that = this;
         that.layout.cells('a').progressOn();
-        that.info.api = "/smart/public/cliente_rede";
+        that.info.api = "/smart/public/cliente_lista_redes";
         that.info.Listar({
             callback: function (response) {
 
-                that.Tree.setItemText('lpr', 'Redes (' + response.dados.length + ')');
                 that.Tree.deleteChildItems('lpr');
 
                 response.dados.findIndex(function (item, index) {
@@ -163,78 +169,77 @@ class Operacoes {
                         folder_closed: "fas fa-dice-d6"
                     });
                 });
+                that.CarregaUnidades(response.dados);
                 that.layout.cells('a').progressOff();
             }
         })
-
     }
 
-    CarregaUnidades(id) {
+    CarregaUnidades(redes) {
 
-        let tree = this.Tree;
-        let node = tree.getUserData(id);
+        let tree = this.Tree, that = this;
 
-        this.info.api = "/smart/public/cliente_unidade";
+        this.info.api = "/smart/public/cliente_lista_unidades";
         this.info.Listar({
-            filter: {
-                rede: node.id
-            },
             callback: function (response) {
 
-                tree.setItemText(id, node.nome + ' (' + response.dados.length + ')');
-                tree.deleteChildItems(id);
+                redes.filter(function (rede) {
 
-                response.dados.findIndex(function (item, index) {
-                    let newid = 'un_' + item.id;
-                    tree.addItem(newid, item.nome, id, index);
-                    tree.setUserData(newid, 'id', item.id);
-                    tree.setUserData(newid, 'tipo', 'unidade');
-                    tree.setUserData(newid, 'nome', item.nome);
-                    tree.setIconColor(newid, '#405057');
-                    tree.setItemIcons(newid, {
-                        file: "fas fa-cube",
-                        folder_opened: "fas fa-cube",
-                        folder_closed: "fas fa-cube"
-                    })
+                    let redeid = 're_' + rede.id;
+
+                    response.dados.findIndex(function (item, index) {
+                       if (item.rede === rede.id) {
+                           let newid = 'un_' + item.id;
+                           tree.addItem(newid, item.nome, redeid, index);
+                           tree.setUserData(newid, 'id', item.id);
+                           tree.setUserData(newid, 'tipo', 'unidade');
+                           tree.setUserData(newid, 'nome', item.nome);
+                           tree.setIconColor(newid, '#405057');
+                           tree.setItemIcons(newid, {
+                               file: "fas fa-cube",
+                               folder_opened: "fas fa-cube",
+                               folder_closed: "fas fa-cube"
+                           })
+                       }
+                    });
                 });
-                tree.openItem(id);
+
+                that.CarregaTerminais(response.dados);
             }
         })
     }
 
-    CarregaTerminais(id) {
+    CarregaTerminais(unidades) {
 
         let tree = this.Tree;
-        let node = tree.getUserData(id);
 
         this.info.api = "/smart/public/cliente_terminal";
         this.info.Listar({
-            filter: {
-                unidade: node.id
-            },
             callback: function (response) {
 
-                tree.setItemText(id, node.nome + ' (' + response.dados.length + ')');
-                tree.deleteChildItems(id);
+                unidades.filter(function (unidade) {
 
-                response.dados.findIndex(function (item, index) {
-                    let newid = 'tr_' + item.id;
-                    tree.addItem(newid, item.nome, id, index);
-                    tree.setUserData(newid, 'id', item.id);
-                    tree.setUserData(newid, 'tipo', 'terminal');
-                    tree.setUserData(newid, 'nome', item.nome);
-                    tree.setIconColor(newid, '#249d28');
-                    tree.setItemIcons(newid, {
-                        file: "fas fa-cubes",
-                        folder_opened: "fas fa-car",
-                        folder_closed: "fas fa-car"
-                    })
+                    let unidadadeid = 'un_' + unidade.id;
+
+                    response.dados.findIndex(function (item, index) {
+
+                        if (item.unidade === unidade.id) {
+
+                            let newid = 'tr_' + item.id;
+                            tree.addItem(newid, item.nome, unidadadeid, index);
+                            tree.setUserData(newid, 'id', item.id);
+                            tree.setUserData(newid, 'tipo', 'terminal');
+                            tree.setUserData(newid, 'nome', item.nome);
+                            tree.setIconColor(newid, '#249d28');
+                            tree.setItemIcons(newid, {
+                                file: "fas fa-cubes",
+                                folder_opened: "fas fa-car",
+                                folder_closed: "fas fa-car"
+                            })
+                        }
+                    });
                 });
-                tree.openItem(id);
             }
         })
-
     }
-
-
 }

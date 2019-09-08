@@ -156,24 +156,35 @@ class Terminal {
 
     Remover() {
 
-        let that = this;
+        dhtmlx.confirm({
+            type:"confirm",
+            title:"Atenção!",
+            ok:"Sim",
+            cancel:"Não",
+            text: "Você confirma a exclusão deste registro?",
+            callback: function(result){
+                if (result === false)
+                    return;
 
-        this.info.Remover({
-            filter: {
-                id: that.id
-            },
-            last: 'id',
-            callback: function (response) {
-                if (response.dados.length > 0) {
-                    dispatchEvent(
-                        new CustomEvent('AoModificar',
-                            {
-                                detail: response
-                            })
-                    );
-                }
+                let that = this;
+
+                this.info.Remover({
+                    filter: {
+                        id: that.id
+                    },
+                    last: 'id',
+                    callback: function (response) {
+                        if (response.dados.length > 0) {
+                            dispatchEvent(
+                                new CustomEvent('AoModificar',
+                                    {
+                                        detail: response
+                                    })
+                            );
+                        }
+                    }
+                })
             }
-        })
-
+        });
     }
 }
