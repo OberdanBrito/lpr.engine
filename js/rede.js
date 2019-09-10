@@ -1,9 +1,9 @@
 class Rede {
 
-    constructor(id) {
+    constructor(node) {
 
-        if (id !== undefined)
-            this.id = id;
+        if (node !== undefined)
+            this.node = node;
 
         this.info = new Info();
         this.info.api = "/smart/public/cliente_rede";
@@ -74,6 +74,20 @@ class Rede {
             ]}
         ];
 
+        this.desativacao = [
+            {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
+            {type: 'block', offsetTop:10, list:[
+                {type: 'container', name: 'icon', inputHeight:48, inputWidth:48},
+                {type:"newcolumn"},
+                {type:"template", label:"Atenção:", style:'color;red', required:true, format:function () {
+                        return "<p style='color: orangered'>O registro selecionado será desativado.<br>Para continuar com esta ação, confirme o motivo.</p>"
+                }}
+            ]},
+            {type: 'block', offsetTop:0, list:[
+                {type: 'input', name: 'purgereason', label: 'Motivo:', rows: 5, inputWidth:400}
+            ]}
+        ];
+
     }
 
     Adicionar() {
@@ -81,7 +95,7 @@ class Rede {
         let that = this;
 
         this.wins.createWindow({
-            id: 'adicionar_rede',
+            id: 'adicionar',
             width: 520,
             height: 500,
             center: true,
@@ -89,29 +103,29 @@ class Rede {
             resize: false,
             modal: true,
             park: false,
-            caption: 'Adicionar nova rede',
+            caption: 'Adicionar',
         });
 
-        this.wins.window('adicionar_rede').button('park').hide();
-        this.wins.window('adicionar_rede').button('minmax').hide();
+        this.wins.window('adicionar').button('park').hide();
+        this.wins.window('adicionar').button('minmax').hide();
 
-        this.wins.window('adicionar_rede').attachToolbar({
+        this.wins.window('adicionar').attachToolbar({
             icon_path: "./img/operacoes/toolbar/",
             items: [
                 {id: "salvar", type: "button", text: "Salvar", img: "salvar.svg"},
             ],
             onClick: function () {
 
-                let dados = Object.assign(that.formidentificacao.getFormData(), that.formfiscal.getFormData());
-                console.debug(dados);
-
                 that.info.Adicionar({
-                    data: dados,
+                    data: [
+                        that.formidentificacao.getFormData(),
+                        that.formfiscal.getFormData()
+                    ],
                     last: 'id',
                     callback: function (response) {
 
                         if (response !== undefined) {
-                            that.wins.window('adicionar_rede').close();
+                            that.wins.window('adicionar').close();
                             dispatchEvent(
                                 new CustomEvent('AoModificar',
                                     {
@@ -125,7 +139,7 @@ class Rede {
             }
         });
 
-        let acc = this.wins.window('adicionar_rede').attachAccordion({
+        let acc = this.wins.window('adicionar').attachAccordion({
             icons_path: "./img/operacoes/accordion/",
             multi_mode: false,
             items: [
@@ -144,7 +158,7 @@ class Rede {
         let that = this;
 
         this.wins.createWindow({
-            id: 'info_rede',
+            id: 'editar',
             width: 520,
             height: 500,
             center: true,
@@ -152,46 +166,56 @@ class Rede {
             resize: false,
             modal: true,
             park: false,
-            caption: 'Informações da rede',
+            caption: 'Editar',
         });
 
-        this.wins.window('info_rede').button('park').hide();
-        this.wins.window('info_rede').button('minmax').hide();
+        this.wins.window('editar').button('park').hide();
+        this.wins.window('editar').button('minmax').hide();
 
-        this.wins.window('info_rede').attachToolbar({
+        this.wins.window('editar').attachToolbar({
             icon_path: "./img/operacoes/toolbar/",
             items: [
                 {id: "salvar", type: "button", text: "Salvar", img: "salvar.svg"},
                 {id: "remover", type: "button", text: "Desativar", img: "remover.svg"},
             ],
-            onClick: function () {
+            onClick: function (id) {
 
-                that.info.Atualizar({
-                    data: [
-                        that.formidentificacao.getFormData(),
-                        that.formfiscal.getFormData()
-                    ],
-                    filter:{
-                        id: that.id
-                    },
-                    last: 'id',
-                    callback: function (response) {
-                        if (response !== undefined) {
-                            that.wins.window('info_rede').close();
-                            dispatchEvent(
-                                new CustomEvent('AoModificar',
-                                    {
-                                        detail: response
-                                    })
-                            );
+                if (id === 'salvar') {
+
+                    that.info.Atualizar({
+                        data: [
+                            that.formidentificacao.getFormData(),
+                            that.formfiscal.getFormData()
+                        ],
+                        filter:{
+                            id: that.node.id
+                        },
+                        last: 'id',
+                        callback: function (response) {
+                            if (response !== undefined) {
+                                that.wins.window('editar').close();
+                                dispatchEvent(
+                                    new CustomEvent('AoModificar',
+                                        {
+                                            detail: response
+                                        })
+                                );
+                            }
+
                         }
+                    })
 
-                    }
-                })
+                } else if (id === 'remover') {
+
+                    that.Desativar();
+
+                }
+
+
             }
         });
 
-        let acc = this.wins.window('info_rede').attachAccordion({
+        let acc = this.wins.window('editar').attachAccordion({
             icons_path: "./img/operacoes/accordion/",
             multi_mode: false,
             items: [
@@ -207,17 +231,34 @@ class Rede {
 
         this.info.Listar({
             filter: {
-                id: that.id
+                id: that.node.id
             },
             callback: function (response) {
 
                 let dados = response.dados[0];
-                dados.firstdate = moment(new Date(dados.firstdate)).format('DD/MM/YYYY HH:mm:ss');
-                dados.lastdate = moment(new Date(dados.lastdate)).format('DD/MM/YYYY HH:mm:ss');
 
-                that.formidentificacao.setFormData(dados);
-                that.formfiscal.setFormData(dados);
-                that.formhistorico.setFormData(dados);
+                let campos_identificacao = {}, campos_fiscal = {}, campos_historico = {};
+                that.formidentificacao.forEachItem(function(name){
+                    if (dados[name] !== undefined)
+                        campos_identificacao[name] = dados[name];
+                });
+                that.formidentificacao.setFormData(campos_identificacao);
+
+                that.formfiscal.forEachItem(function(name){
+                    if (dados[name] !== undefined)
+                        campos_fiscal[name] = dados[name];
+                });
+                that.formfiscal.setFormData(campos_fiscal);
+
+                that.formhistorico.forEachItem(function(name){
+                    if (dados[name] !== undefined)
+                        campos_historico[name] = dados[name];
+                });
+
+                campos_historico.firstdate = moment(new Date(campos_historico.firstdate)).format('DD/MM/YYYY HH:mm:ss');
+                campos_historico.lastdate = moment(new Date(campos_historico.lastdate)).format('DD/MM/YYYY HH:mm:ss');
+
+                that.formhistorico.setFormData(campos_historico);
             }
         })
 
@@ -227,28 +268,41 @@ class Rede {
 
         let that = this;
 
-        dhtmlx.confirm({
-            type:"confirm",
-            title:"Atenção!",
-            ok:"Sim",
-            cancel:"Não",
-            text: "Você confirma a exclusão deste registro?",
-            callback: function(result){
+        this.wins.createWindow({
+            id: 'desativar',
+            width: 480,
+            height: 350,
+            center: true,
+            move: false,
+            resize: false,
+            modal: true,
+            park: false,
+            caption: 'Desativar',
+        });
 
-                if (result === false)
-                    return;
+        this.wins.window('desativar').button('park').hide();
+        this.wins.window('desativar').button('minmax').hide();
+
+        this.wins.window('desativar').attachToolbar({
+            icon_path: "./img/operacoes/toolbar/",
+            items: [
+                {id: "confirmar", type: "button", text: "Confirmar", img: "salvar.svg"}
+            ],
+            onClick: function () {
 
                 that.info.Atualizar({
                     data: {
                         purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
-                        purgeuser: JSON.parse(sessionStorage.auth).user.login
+                        purgeuser: JSON.parse(sessionStorage.auth).user.login,
+                        purgereason: form.getItemValue('purgereason')
                     },
                     filter: {
-                        id: that.id
+                        id: that.node.id
                     },
                     last: 'id',
                     callback: function (response) {
                         if (response.dados.length > 0) {
+                            that.wins.window('desativar').close();
                             dispatchEvent(
                                 new CustomEvent('AoModificar',
                                     {
@@ -260,5 +314,9 @@ class Rede {
                 })
             }
         });
+
+        let form = this.wins.window('desativar').attachForm(that.desativacao);
+        form.getContainer('icon').innerHTML = "<!--suppress ALL --><img alt='' src='./img/operacoes/toolbar/remover.svg' />"
+
     }
 }
