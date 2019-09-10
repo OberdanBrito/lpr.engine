@@ -4,20 +4,12 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="smart" />
-    <orderEntry type="module" module-name="lpr.agent" />
     <orderEntry type="library" name="dhtmlx" level="application" />
-    <orderEntry type="library" name="numeral" level="application" />
-    <orderEntry type="library" name="moment" level="application" />
-    <orderEntry type="library" name="pt-br" level="application" />
-    <orderEntry type="library" name="jquery-3.4.1" level="application" />
     <orderEntry type="library" name="info" level="application" />
-    <orderEntry type="library" name="dhtmlx" level="application" />
-    <orderEntry type="library" name="numeral" level="application" />
     <orderEntry type="library" name="moment" level="application" />
-    <orderEntry type="library" name="pt-br" level="application" />
-    <orderEntry type="library" name="jquery-3.4.1" level="application" />
-    <orderEntry type="library" name="info" level="application" />
     <orderEntry type="library" name="2aece71fd9" level="application" />
+    <orderEntry type="library" name="jquery-3.4.1" level="application" />
+    <orderEntry type="library" name="numeral" level="application" />
+    <orderEntry type="library" name="pt-br" level="application" />
   </component>
 </module>
