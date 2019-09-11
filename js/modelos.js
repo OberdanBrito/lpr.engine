@@ -1,0 +1,6 @@
+class Modelos {
+
+    constructor(cell) {
+
+    }
+}

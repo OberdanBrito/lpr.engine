@@ -186,6 +186,16 @@ class Operacoes {
             return false;
         });
 
+        this.Tree.attachEvent("onSelect", function(id){
+
+            let node = that.Tree.getUserData(id);
+
+            if (node.tipo === 'filtros') {
+                new Filtros(that.layout.cells('b'), node.unidade);
+            }
+
+        });
+
         addEventListener('AoModificar', function () {
             that.CarregaRedes();
         }, false);
@@ -233,14 +243,14 @@ class Operacoes {
 
                     let redeid = 're_' + rede.id;
 
-                    response.dados.findIndex(function (item, index) {
-                        if (item.rede === rede.id) {
+                    response.dados.findIndex(function (unidade, index) {
+                        if (unidade.rede === rede.id) {
 
-                            let source_id = 'un_' + item.id;
-                            tree.addItem(source_id, item.nome, redeid, index);
-                            tree.setUserData(source_id, 'id', item.id);
+                            let source_id = 'un_' + unidade.id;
+                            tree.addItem(source_id, unidade.nome, redeid, index);
+                            tree.setUserData(source_id, 'id', unidade.id);
                             tree.setUserData(source_id, 'tipo', 'unidade');
-                            tree.setUserData(source_id, 'nome', item.nome);
+                            tree.setUserData(source_id, 'nome', unidade.nome);
                             tree.setIconColor(source_id, '#405057');
                             tree.setItemIcons(source_id, {
                                 file: "fas fa-cube",
@@ -251,6 +261,7 @@ class Operacoes {
                             [
                                 {
                                     id: source_id,
+                                    unidade_id: unidade.id,
                                     categoria: 'terminais',
                                     titulo: 'Terminais',
                                     cor: '#009d6b',
@@ -258,6 +269,7 @@ class Operacoes {
                                 },
                                 {
                                     id: source_id,
+                                    unidade_id: unidade.id,
                                     categoria: 'agentes_lpr',
                                     titulo: 'Agentes LPR',
                                     cor: '#352260',
@@ -265,6 +277,7 @@ class Operacoes {
                                 },
                                 {
                                     id: source_id,
+                                    unidade_id: unidade.id,
                                     categoria: 'filtros',
                                     titulo: 'Filtros',
                                     cor: '#e47931',
@@ -272,6 +285,7 @@ class Operacoes {
                                 },
                                 {
                                     id: source_id,
+                                    unidade_id: unidade.id,
                                     categoria: 'alertas',
                                     titulo: 'Alertas',
                                     cor: '#ce0063',
@@ -294,6 +308,7 @@ class Operacoes {
 
         let id = info.id + '_' + info.categoria;
         this.Tree.addItem(id, info.titulo, info.id, index);
+        this.Tree.setUserData(id, 'unidade', info.unidade_id);
         this.Tree.setUserData(id, 'tipo', info.categoria);
         this.Tree.setIconColor(id, info.cor);
         this.Tree.setItemIcons(id, {

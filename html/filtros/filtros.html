@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang='pt'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Filtro</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            font-size: small;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            height: 22px;
+        }
+
+        .campo {
+            font-weight: bold;
+            text-align: end;
+            width: 10%;
+        }
+
+        .borda {
+            border-bottom: 1px solid #eee;
+        }
+
+        .valor {
+            color: #3984ff;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td class='campo'>Criado em:</td>
+        <td class='valor'>#firstdate#</td>
+        <td class='campo'>Última alteração:</td>
+        <td class='valor'>#lastdate#</td>
+    </tr>
+    <tr>
+        <td class='campo borda'>Criado por:</td>
+        <td class='valor borda'>#firstuser#</td>
+        <td class='campo borda'>Alterador por:</td>
+        <td class='valor borda'>#lastuser#</td>
+    </tr>
+    <tr>
+        <td class='campo'>Nome do critério:</td>
+        <td colspan='5' class='valor'>#nome#</td>
+    </tr>
+    <tr>
+        <td class='campo'>Conceito:</td>
+        <td colspan='5' class='valor'>#conceito#</td>
+    </tr>
+    <tr>
+        <td class='campo'>Critérios:</td>
+        <td colspan='5' class='valor'>#criterios#</td>
+    </tr>
+</table>
+</body>
+</html>
