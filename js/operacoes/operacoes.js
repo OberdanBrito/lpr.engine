@@ -99,7 +99,9 @@ class Operacoes {
                 },
                 {
                     tipo: 'agentes_lpr', lista: [
-                        {id: "adicionar_agente", text: 'Adicionar novo agente LPR...', img: "unidade.svg"},
+                        {id: "adicionar_agente", text: 'Adicionar novo agente LPR...', img: "unidade.svg", acao: function () {
+                            new Agente(node).Adicionar();
+                        }},
                     ]
                 },
                 {
@@ -114,8 +116,12 @@ class Operacoes {
                 },
                 {
                     tipo: 'agente', lista: [
-                        {id: "editar_agente", text: 'Editar...', img: "informacoes.svg"},
-                        {id: "desativar_agente", text: 'Desativar', img: "remover.svg"}
+                        {id: "editar_agente", text: 'Editar...', img: "informacoes.svg", acao: function () {
+                                new Agente(node).Editar();
+                            }},
+                        {id: "desativar_agente", text: 'Desativar', img: "remover.svg", acao: function () {
+                                new Agente(node).Desativar();
+                            }}
                     ]
                 }
             ];
