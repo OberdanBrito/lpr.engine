@@ -1,35 +1,21 @@
-class Agente {
+class Terminal {
 
     constructor(node) {
 
         if (node !== undefined)
             this.node = node;
 
-        this.info = new Info();
-        this.info.api = "/smart/public/cliente_agente";
+        this.liteapi = new Liteapi();
+        this.liteapi.source = "/smart/public/cliente_terminal";
         this.wins = new dhtmlXWindows();
 
         this.identificacao = [
             {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
             {type: 'block', offsetTop:10, list:[
-                {type: 'input', name: 'nome', label: 'Identificação:', inputWidth:400, required: true},
-            ]},
-            {type: 'block', offsetTop:0, list:[
-                {type: 'input', name: 'host', label: 'Endereço host:', inputWidth:320, required: true},
+                {type: 'input', name: 'nome', label: 'Nome:', inputWidth:320, required: true},
                 {type:"newcolumn"},
-                {type: 'input', name: 'port', label: 'Porta:', inputWidth:100, required: true}
-            ]},
-            {type: 'block', offsetTop:0, list:[
-                {type: 'input', name: 'dbname', label: 'Banco de dados:', inputWidth:210, required: true},
-                {type:"newcolumn"},
-                {type: 'input', name: 'username', label: 'Usuário:', inputWidth:210, required: true}
-            ]},
-            {type: 'block', offsetTop:0, list:[
-                {type: 'password', name: 'password', label: 'Senha:', inputWidth:210, required: true},
-                {type:"newcolumn"},
-                {type: 'password', name: 'confirme', label: 'Confirmação:', inputWidth:210, required: true}
-            ]},
-
+                {type: 'input', name: 'codigo_terminal', label: 'Código:', inputWidth:80}
+            ]}
         ];
 
         this.historico = [
@@ -74,13 +60,13 @@ class Agente {
         this.wins.createWindow({
             id: 'adicionar',
             width: 520,
-            height: 400,
+            height: 200,
             center: true,
             move: false,
             resize: false,
             modal: true,
             park: false,
-            caption: 'Adicionar novo agente LPR',
+            caption: 'Adicionar novo terminal',
         });
 
         this.wins.window('adicionar').button('park').hide();
@@ -93,7 +79,7 @@ class Agente {
             ],
             onClick: function () {
 
-                that.info.Adicionar({
+                that.liteapi.Adicionar({
                     data: that.formidentificacao.getFormData(),
                     last: 'id',
                     callback: function (response) {
@@ -123,7 +109,7 @@ class Agente {
         this.wins.createWindow({
             id: 'editar',
             width: 520,
-            height: 500,
+            height: 350,
             center: true,
             move: false,
             resize: false,
@@ -145,7 +131,7 @@ class Agente {
 
                 if (id === 'salvar') {
 
-                    that.info.Atualizar({
+                    that.liteapi.Atualizar({
                         data: that.formidentificacao.getFormData(),
                         filter:{
                             id: that.node.id
@@ -185,7 +171,7 @@ class Agente {
         this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
         this.formhistorico = acc.cells('historico').attachForm(this.historico);
 
-        this.info.Listar({
+        this.liteapi.Listar({
             filter: {
                 id: that.node.id
             },
@@ -240,7 +226,7 @@ class Agente {
             ],
             onClick: function () {
 
-                that.info.Atualizar({
+                that.liteapi.Atualizar({
                     data: {
                         purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
                         purgeuser: JSON.parse(sessionStorage.auth).user.login,

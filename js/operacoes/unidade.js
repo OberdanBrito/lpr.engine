@@ -5,8 +5,8 @@ class Unidade {
         if (node !== undefined)
             this.node = node;
 
-        this.info = new Info();
-        this.info.api = "/smart/public/cliente_unidade";
+        this.liteapi = new Liteapi();
+        this.liteapi.source = "/smart/public/cliente_unidade";
         this.wins = new dhtmlXWindows();
 
         this.identificacao = [
@@ -97,7 +97,7 @@ class Unidade {
             ],
             onClick: function () {
 
-                that.info.Adicionar({
+                that.liteapi.Adicionar({
                     data: that.formidentificacao.getFormData(),
                     last: 'id',
                     callback: function (response) {
@@ -149,7 +149,7 @@ class Unidade {
 
                 if (id === 'salvar') {
 
-                    that.info.Atualizar({
+                    that.liteapi.Atualizar({
                         data: that.formidentificacao.getFormData(),
                         filter:{
                             id: that.node.id
@@ -189,7 +189,7 @@ class Unidade {
         this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
         this.formhistorico = acc.cells('historico').attachForm(this.historico);
 
-        this.info.Listar({
+        this.liteapi.Listar({
             filter: {
                 id: that.node.id
             },
@@ -244,7 +244,7 @@ class Unidade {
             ],
             onClick: function () {
 
-                that.info.Atualizar({
+                that.liteapi.Atualizar({
                     data: {
                         purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
                         purgeuser: JSON.parse(sessionStorage.auth).user.login,

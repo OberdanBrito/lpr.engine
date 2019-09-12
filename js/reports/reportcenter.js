@@ -35,13 +35,13 @@ class Reportcenter {
 
         this.Tree.attachEvent("onDblClick", function (id) {
             that.relatorio = this.getUserData(id, "info");
-            that.Preprocessamento();
+            that.Proprocessamento();
             return true;
         });
 
     }
 
-    Preprocessamento() {
+    Proprocessamento() {
 
         let that = this;
 
@@ -91,9 +91,9 @@ class Reportcenter {
             campos.push(item.nome);
         });
 
-        let info = new Info();
-        info.api = origem;
-        info.Listar({
+        let liteapi = new Liteapi();
+        liteapi.source = origem;
+        liteapi.Listar({
             fields: campos.join(','),
             callback: function (response) {
                 callback(response);

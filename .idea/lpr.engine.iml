@@ -11,5 +11,6 @@
     <orderEntry type="library" name="jquery-3.4.1" level="application" />
     <orderEntry type="library" name="numeral" level="application" />
     <orderEntry type="library" name="pt-br" level="application" />
+    <orderEntry type="library" name="liteapi" level="application" />
   </component>
 </module>

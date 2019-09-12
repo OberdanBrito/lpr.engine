@@ -1,21 +1,58 @@
-class Terminal {
+class Rede {
 
     constructor(node) {
 
         if (node !== undefined)
             this.node = node;
 
-        this.info = new Info();
-        this.info.api = "/smart/public/cliente_terminal";
+        this.liteapi = new Liteapi();
+        this.liteapi.source = "/smart/public/cliente_rede";
         this.wins = new dhtmlXWindows();
 
         this.identificacao = [
             {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
             {type: 'block', offsetTop:10, list:[
-                {type: 'input', name: 'nome', label: 'Nome:', inputWidth:320, required: true},
+                {type: 'input', name: 'nome_fantasia', label: 'Nome:', inputWidth:320, required: true},
                 {type:"newcolumn"},
-                {type: 'input', name: 'codigo_terminal', label: 'Código:', inputWidth:80}
+                {type: 'input', name: 'codigo_externo', label: 'Código:', inputWidth:100}
+            ]},
+            {type: 'block', offsetTop:0, list:[
+                {type: 'input', name: 'contato', label: 'Contato:', inputWidth:320, required: true},
+                {type:"newcolumn"},
+                {type: 'input', name: 'telefone', label: 'Telefone:', inputWidth:100, required: true}
+            ]},
+            {type: 'block', offsetTop:0, list:[
+                {type: 'input', name: 'email', label: 'E-mail:', inputWidth:320}
             ]}
+        ];
+
+        this.fiscal = [
+            {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
+            {type: 'block', offsetTop:0, list:[
+                    {type: 'input', name: 'nome_razao_social', label: 'Nome/Razão social:', inputWidth:400},
+                ]},
+            {type: 'block', offsetTop:0, list:[
+                    {type: 'input', name: 'endereco', label: 'Endereço:', inputWidth:320},
+                    {type:"newcolumn"},
+                    {type: 'input', name: 'numero', label: 'Número:', inputWidth:80}
+                ]},
+            {type: 'block', offsetTop:0, list:[
+                    {type: 'input', name: 'bairro', label: 'Bairro:', inputWidth:320},
+                    {type:"newcolumn"},
+                    {type: 'input', name: 'cep', label: 'CEP:', inputWidth:80}
+                ]},
+            {type: 'block', offsetTop:0, list:[
+                    {type: 'input', name: 'cidade', label: 'Cidade:', inputWidth:320},
+                    {type:"newcolumn"},
+                    {type: 'input', name: 'uf', label: 'UF:', inputWidth:80}
+                ]},
+            {type: 'block', offsetTop:0, list:[
+                    {type: 'input', name: 'cnpj', label: 'CNPJ:', inputWidth:130},
+                    {type:"newcolumn"},
+                    {type: 'input', name: 'inscricao_municipal', label: 'Inscr. Muni.:', inputWidth:130},
+                    {type:"newcolumn"},
+                    {type: 'input', name: 'inscricao_estadual', label: 'Inscr. Est.:', inputWidth:130}
+                ]}
         ];
 
         this.historico = [
@@ -60,13 +97,13 @@ class Terminal {
         this.wins.createWindow({
             id: 'adicionar',
             width: 520,
-            height: 200,
+            height: 500,
             center: true,
             move: false,
             resize: false,
             modal: true,
             park: false,
-            caption: 'Adicionar novo terminal',
+            caption: 'Adicionar',
         });
 
         this.wins.window('adicionar').button('park').hide();
@@ -79,8 +116,11 @@ class Terminal {
             ],
             onClick: function () {
 
-                that.info.Adicionar({
-                    data: that.formidentificacao.getFormData(),
+                that.liteapi.Adicionar({
+                    data: [
+                        that.formidentificacao.getFormData(),
+                        that.formfiscal.getFormData()
+                    ],
                     last: 'id',
                     callback: function (response) {
 
@@ -99,7 +139,18 @@ class Terminal {
             }
         });
 
-        this.formidentificacao = this.wins.window('adicionar').attachForm(this.identificacao);
+        let acc = this.wins.window('adicionar').attachAccordion({
+            icons_path: "./img/operacoes/accordion/",
+            multi_mode: false,
+            items: [
+                {id: 'geral', text: 'Informações gerais', icon: 'contato.svg', open: true},
+                {id: 'fiscal', text: 'Informações fiscais', icon: 'fiscal.svg', open: false}
+            ]
+        });
+
+        this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
+        this.formfiscal = acc.cells('fiscal').attachForm(this.fiscal);
+
     }
 
     Editar() {
@@ -109,7 +160,7 @@ class Terminal {
         this.wins.createWindow({
             id: 'editar',
             width: 520,
-            height: 350,
+            height: 500,
             center: true,
             move: false,
             resize: false,
@@ -131,8 +182,11 @@ class Terminal {
 
                 if (id === 'salvar') {
 
-                    that.info.Atualizar({
-                        data: that.formidentificacao.getFormData(),
+                    that.liteapi.Atualizar({
+                        data: [
+                            that.formidentificacao.getFormData(),
+                            that.formfiscal.getFormData()
+                        ],
                         filter:{
                             id: that.node.id
                         },
@@ -156,6 +210,8 @@ class Terminal {
                     that.Desativar();
 
                 }
+
+
             }
         });
 
@@ -163,15 +219,17 @@ class Terminal {
             icons_path: "./img/operacoes/accordion/",
             multi_mode: false,
             items: [
-                {id: 'geral', text: 'Identificação do terminal', icon: 'contato.svg', open: true},
+                {id: 'geral', text: 'Informações gerais', icon: 'contato.svg', open: true},
+                {id: 'fiscal', text: 'Informações fiscais', icon: 'fiscal.svg', open: false},
                 {id: 'historico', text: 'Histórico', icon: 'historico.svg', open: false}
             ]
         });
 
         this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
+        this.formfiscal = acc.cells('fiscal').attachForm(this.fiscal);
         this.formhistorico = acc.cells('historico').attachForm(this.historico);
 
-        this.info.Listar({
+        this.liteapi.Listar({
             filter: {
                 id: that.node.id
             },
@@ -179,12 +237,18 @@ class Terminal {
 
                 let dados = response.dados[0];
 
-                let campos_identificacao = {}, campos_historico = {};
+                let campos_identificacao = {}, campos_fiscal = {}, campos_historico = {};
                 that.formidentificacao.forEachItem(function(name){
                     if (dados[name] !== undefined)
                         campos_identificacao[name] = dados[name];
                 });
                 that.formidentificacao.setFormData(campos_identificacao);
+
+                that.formfiscal.forEachItem(function(name){
+                    if (dados[name] !== undefined)
+                        campos_fiscal[name] = dados[name];
+                });
+                that.formfiscal.setFormData(campos_fiscal);
 
                 that.formhistorico.forEachItem(function(name){
                     if (dados[name] !== undefined)
@@ -226,7 +290,7 @@ class Terminal {
             ],
             onClick: function () {
 
-                that.info.Atualizar({
+                that.liteapi.Atualizar({
                     data: {
                         purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
                         purgeuser: JSON.parse(sessionStorage.auth).user.login,

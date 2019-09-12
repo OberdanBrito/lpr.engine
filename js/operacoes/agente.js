@@ -1,58 +1,35 @@
-class Rede {
+class Agente {
 
     constructor(node) {
 
         if (node !== undefined)
             this.node = node;
 
-        this.info = new Info();
-        this.info.api = "/smart/public/cliente_rede";
+        this.liteapi = new Liteapi();
+        this.liteapi.source = "/smart/public/cliente_agente";
         this.wins = new dhtmlXWindows();
 
         this.identificacao = [
             {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
             {type: 'block', offsetTop:10, list:[
-                {type: 'input', name: 'nome_fantasia', label: 'Nome:', inputWidth:320, required: true},
-                {type:"newcolumn"},
-                {type: 'input', name: 'codigo_externo', label: 'Código:', inputWidth:100}
+                {type: 'input', name: 'nome', label: 'Identificação:', inputWidth:400, required: true},
             ]},
             {type: 'block', offsetTop:0, list:[
-                {type: 'input', name: 'contato', label: 'Contato:', inputWidth:320, required: true},
+                {type: 'input', name: 'host', label: 'Endereço host:', inputWidth:320, required: true},
                 {type:"newcolumn"},
-                {type: 'input', name: 'telefone', label: 'Telefone:', inputWidth:100, required: true}
+                {type: 'input', name: 'port', label: 'Porta:', inputWidth:100, required: true}
             ]},
             {type: 'block', offsetTop:0, list:[
-                {type: 'input', name: 'email', label: 'E-mail:', inputWidth:320}
-            ]}
-        ];
+                {type: 'input', name: 'dbname', label: 'Banco de dados:', inputWidth:210, required: true},
+                {type:"newcolumn"},
+                {type: 'input', name: 'username', label: 'Usuário:', inputWidth:210, required: true}
+            ]},
+            {type: 'block', offsetTop:0, list:[
+                {type: 'password', name: 'password', label: 'Senha:', inputWidth:210, required: true},
+                {type:"newcolumn"},
+                {type: 'password', name: 'confirme', label: 'Confirmação:', inputWidth:210, required: true}
+            ]},
 
-        this.fiscal = [
-            {type: 'settings', offsetLeft: 10, offsetTop: 0, position:'label-top'},
-            {type: 'block', offsetTop:0, list:[
-                    {type: 'input', name: 'nome_razao_social', label: 'Nome/Razão social:', inputWidth:400},
-                ]},
-            {type: 'block', offsetTop:0, list:[
-                    {type: 'input', name: 'endereco', label: 'Endereço:', inputWidth:320},
-                    {type:"newcolumn"},
-                    {type: 'input', name: 'numero', label: 'Número:', inputWidth:80}
-                ]},
-            {type: 'block', offsetTop:0, list:[
-                    {type: 'input', name: 'bairro', label: 'Bairro:', inputWidth:320},
-                    {type:"newcolumn"},
-                    {type: 'input', name: 'cep', label: 'CEP:', inputWidth:80}
-                ]},
-            {type: 'block', offsetTop:0, list:[
-                    {type: 'input', name: 'cidade', label: 'Cidade:', inputWidth:320},
-                    {type:"newcolumn"},
-                    {type: 'input', name: 'uf', label: 'UF:', inputWidth:80}
-                ]},
-            {type: 'block', offsetTop:0, list:[
-                    {type: 'input', name: 'cnpj', label: 'CNPJ:', inputWidth:130},
-                    {type:"newcolumn"},
-                    {type: 'input', name: 'inscricao_municipal', label: 'Inscr. Muni.:', inputWidth:130},
-                    {type:"newcolumn"},
-                    {type: 'input', name: 'inscricao_estadual', label: 'Inscr. Est.:', inputWidth:130}
-                ]}
         ];
 
         this.historico = [
@@ -97,13 +74,13 @@ class Rede {
         this.wins.createWindow({
             id: 'adicionar',
             width: 520,
-            height: 500,
+            height: 400,
             center: true,
             move: false,
             resize: false,
             modal: true,
             park: false,
-            caption: 'Adicionar',
+            caption: 'Adicionar novo agente LPR',
         });
 
         this.wins.window('adicionar').button('park').hide();
@@ -116,11 +93,8 @@ class Rede {
             ],
             onClick: function () {
 
-                that.info.Adicionar({
-                    data: [
-                        that.formidentificacao.getFormData(),
-                        that.formfiscal.getFormData()
-                    ],
+                that.liteapi.Adicionar({
+                    data: that.formidentificacao.getFormData(),
                     last: 'id',
                     callback: function (response) {
 
@@ -139,18 +113,7 @@ class Rede {
             }
         });
 
-        let acc = this.wins.window('adicionar').attachAccordion({
-            icons_path: "./img/operacoes/accordion/",
-            multi_mode: false,
-            items: [
-                {id: 'geral', text: 'Informações gerais', icon: 'contato.svg', open: true},
-                {id: 'fiscal', text: 'Informações fiscais', icon: 'fiscal.svg', open: false}
-            ]
-        });
-
-        this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
-        this.formfiscal = acc.cells('fiscal').attachForm(this.fiscal);
-
+        this.formidentificacao = this.wins.window('adicionar').attachForm(this.identificacao);
     }
 
     Editar() {
@@ -182,11 +145,8 @@ class Rede {
 
                 if (id === 'salvar') {
 
-                    that.info.Atualizar({
-                        data: [
-                            that.formidentificacao.getFormData(),
-                            that.formfiscal.getFormData()
-                        ],
+                    that.liteapi.Atualizar({
+                        data: that.formidentificacao.getFormData(),
                         filter:{
                             id: that.node.id
                         },
@@ -210,8 +170,6 @@ class Rede {
                     that.Desativar();
 
                 }
-
-
             }
         });
 
@@ -219,17 +177,15 @@ class Rede {
             icons_path: "./img/operacoes/accordion/",
             multi_mode: false,
             items: [
-                {id: 'geral', text: 'Informações gerais', icon: 'contato.svg', open: true},
-                {id: 'fiscal', text: 'Informações fiscais', icon: 'fiscal.svg', open: false},
+                {id: 'geral', text: 'Identificação do terminal', icon: 'contato.svg', open: true},
                 {id: 'historico', text: 'Histórico', icon: 'historico.svg', open: false}
             ]
         });
 
         this.formidentificacao = acc.cells('geral').attachForm(this.identificacao);
-        this.formfiscal = acc.cells('fiscal').attachForm(this.fiscal);
         this.formhistorico = acc.cells('historico').attachForm(this.historico);
 
-        this.info.Listar({
+        this.liteapi.Listar({
             filter: {
                 id: that.node.id
             },
@@ -237,18 +193,12 @@ class Rede {
 
                 let dados = response.dados[0];
 
-                let campos_identificacao = {}, campos_fiscal = {}, campos_historico = {};
+                let campos_identificacao = {}, campos_historico = {};
                 that.formidentificacao.forEachItem(function(name){
                     if (dados[name] !== undefined)
                         campos_identificacao[name] = dados[name];
                 });
                 that.formidentificacao.setFormData(campos_identificacao);
-
-                that.formfiscal.forEachItem(function(name){
-                    if (dados[name] !== undefined)
-                        campos_fiscal[name] = dados[name];
-                });
-                that.formfiscal.setFormData(campos_fiscal);
 
                 that.formhistorico.forEachItem(function(name){
                     if (dados[name] !== undefined)
@@ -265,58 +215,6 @@ class Rede {
     }
 
     Desativar() {
-
-        let that = this;
-
-        this.wins.createWindow({
-            id: 'desativar',
-            width: 480,
-            height: 350,
-            center: true,
-            move: false,
-            resize: false,
-            modal: true,
-            park: false,
-            caption: 'Desativar',
-        });
-
-        this.wins.window('desativar').button('park').hide();
-        this.wins.window('desativar').button('minmax').hide();
-
-        this.wins.window('desativar').attachToolbar({
-            icon_path: "./img/operacoes/toolbar/",
-            items: [
-                {id: "confirmar", type: "button", text: "Confirmar", img: "salvar.svg"}
-            ],
-            onClick: function () {
-
-                that.info.Atualizar({
-                    data: {
-                        purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
-                        purgeuser: JSON.parse(sessionStorage.auth).user.login,
-                        purgereason: form.getItemValue('purgereason')
-                    },
-                    filter: {
-                        id: that.node.id
-                    },
-                    last: 'id',
-                    callback: function (response) {
-                        if (response.dados.length > 0) {
-                            that.wins.window('desativar').close();
-                            dispatchEvent(
-                                new CustomEvent('AoModificar',
-                                    {
-                                        detail: response
-                                    })
-                            );
-                        }
-                    }
-                })
-            }
-        });
-
-        let form = this.wins.window('desativar').attachForm(that.desativacao);
-        form.getContainer('icon').innerHTML = "<!--suppress ALL --><img alt='' src='./img/operacoes/toolbar/remover.svg' />"
-
+        new Desativacao(this.liteapi, this.node.id);
     }
 }

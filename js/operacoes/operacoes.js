@@ -3,7 +3,7 @@ class Operacoes {
     constructor(cell) {
 
         let that = this;
-        this.info = new Info();
+        this.liteapi = new Liteapi();
 
         this.layout = cell.attachLayout({
             pattern: '2U',
@@ -132,6 +132,18 @@ class Operacoes {
                     ]
                 },
                 {
+                    tipo: 'filtros', lista: [
+                        {
+                            id: "adicionar_filtro",
+                            text: 'Adicionar novo filtro...',
+                            img: "filtro.svg",
+                            acao: function () {
+                                new Filtros(node).Adicionar();
+                            }
+                        },
+                    ]
+                },
+                {
                     tipo: 'terminal', lista: [
                         {
                             id: "editar_terminal", text: 'Editar...', img: "informacoes.svg", acao: function () {
@@ -155,6 +167,20 @@ class Operacoes {
                         {
                             id: "desativar_agente", text: 'Desativar', img: "remover.svg", acao: function () {
                                 new Agente(node).Desativar();
+                            }
+                        }
+                    ]
+                },
+                {
+                    tipo: 'filtro', lista: [
+                        {
+                            id: "editar_filtro", text: 'Editar...', img: "informacoes.svg", acao: function () {
+                                new Editor(that.layout.cells('b'), node).Editar();
+                            }
+                        },
+                        {
+                            id: "desativar_filtro", text: 'Desativar', img: "remover.svg", acao: function () {
+                                new Filtros(node).Desativar();
                             }
                         }
                     ]
@@ -186,7 +212,7 @@ class Operacoes {
             return false;
         });
 
-        this.Tree.attachEvent("onSelect", function(id){
+        this.Tree.attachEvent("onSelect", function (id) {
 
             let node = that.Tree.getUserData(id);
 
@@ -206,24 +232,24 @@ class Operacoes {
 
         let that = this;
         that.layout.cells('a').progressOn();
-        that.info.api = "/smart/public/cliente_lista_redes";
-        that.info.Listar({
+        that.liteapi.source = "/smart/public/cliente_lista_redes";
+        that.liteapi.Listar({
             callback: function (response) {
 
                 that.Tree.deleteChildItems('lpr');
 
                 response.dados.findIndex(function (item, index) {
-                    let id = 're_' + item.id;
-                    that.Tree.addItem(id, item.nome, 'lpr', index);
-                    that.Tree.setUserData(id, 'id', item.id);
-                    that.Tree.setUserData(id, 'tipo', 'rede');
-                    that.Tree.setUserData(id, 'nome', item.nome);
-                    that.Tree.setIconColor(id, '#124c68');
-                    that.Tree.setItemIcons(id, {
-                        file: "fas fa-dice-d6",
-                        folder_opened: "fas fa-dice-d6",
-                        folder_closed: "fas fa-dice-d6"
-                    });
+                    that.TreeAdicionarItem({
+                        sigla: 're_',
+                        id: item.id,
+                        titulo: item.nome,
+                        parentid: 'lpr',
+                        tipo: 'rede',
+                        nome: item.nome,
+                        cor: '#124c68',
+                        icone: 'fas fa-dice-d6'
+                    }, index);
+
                 });
                 that.CarregaUnidades(response.dados);
                 that.layout.cells('a').progressOff();
@@ -235,8 +261,8 @@ class Operacoes {
 
         let tree = this.Tree, that = this;
 
-        this.info.api = "/smart/public/cliente_lista_unidades";
-        this.info.Listar({
+        this.liteapi.source = "/smart/public/cliente_lista_unidades";
+        this.liteapi.Listar({
             callback: function (response) {
 
                 redes.filter(function (rede) {
@@ -292,7 +318,7 @@ class Operacoes {
                                     icone: 'fas fa-bell'
                                 }
                             ].findIndex(function (categoria, index) {
-                                that.AdicionaCategoria(categoria, index);
+                                that.TreeAdicionarCategoria(categoria, index);
                             });
                         }
                     });
@@ -300,11 +326,12 @@ class Operacoes {
 
                 that.CarregaTerminais(response.dados);
                 that.CarregaAgentesLPR(response.dados);
+                that.CarregaFiltros(response.dados);
             }
         })
     }
 
-    AdicionaCategoria(info, index) {
+    TreeAdicionarCategoria(info, index) {
 
         let id = info.id + '_' + info.categoria;
         this.Tree.addItem(id, info.titulo, info.id, index);
@@ -319,12 +346,27 @@ class Operacoes {
 
     }
 
+    TreeAdicionarItem(info, index) {
+
+        let id = info.sigla + info.id;
+        this.Tree.addItem(id, info.titulo, info.parentid, index);
+        this.Tree.setUserData(id, 'id', info.id);
+        this.Tree.setUserData(id, 'tipo', info.tipo);
+        this.Tree.setUserData(id, 'nome', info.nome);
+        this.Tree.setIconColor(id, info.cor);
+        this.Tree.setItemIcons(id, {
+            file: info.icone,
+            folder_opened: info.icone,
+            folder_closed: info.icone
+        });
+    }
+
     CarregaTerminais(unidades) {
 
-        let tree = this.Tree;
+        let that = this;
 
-        this.info.api = "/smart/public/cliente_lista_terminais";
-        this.info.Listar({
+        this.liteapi.source = "/smart/public/cliente_lista_terminais";
+        this.liteapi.Listar({
             callback: function (response) {
 
                 unidades.filter(function (unidade) {
@@ -334,18 +376,16 @@ class Operacoes {
                     response.dados.findIndex(function (item, index) {
 
                         if (item.unidade === unidade.id) {
-
-                            let newid = 'tr_' + item.id;
-                            tree.addItem(newid, item.nome, unidadade_id, index);
-                            tree.setUserData(newid, 'id', item.id);
-                            tree.setUserData(newid, 'tipo', 'terminal');
-                            tree.setUserData(newid, 'nome', item.nome);
-                            tree.setIconColor(newid, '#249d28');
-                            tree.setItemIcons(newid, {
-                                file: "fas fa-chalkboard-teacher",
-                                folder_opened: "fas fa-chalkboard-teacher",
-                                folder_closed: "fas fa-chalkboard-teacher"
-                            })
+                            that.TreeAdicionarItem({
+                                sigla: 'tr_',
+                                id: item.id,
+                                titulo: item.nome,
+                                parentid: unidadade_id,
+                                tipo: 'terminal',
+                                nome: item.nome,
+                                cor: '#249d28',
+                                icone: 'fas fa-chalkboard-teacher'
+                            }, index);
                         }
                     });
                 });
@@ -355,10 +395,10 @@ class Operacoes {
 
     CarregaAgentesLPR(unidades) {
 
-        let tree = this.Tree;
+        let that = this;
 
-        this.info.api = "/smart/public/cliente_agente";
-        this.info.Listar({
+        this.liteapi.source = "/smart/public/cliente_agente";
+        this.liteapi.Listar({
             callback: function (response) {
 
                 unidades.filter(function (unidade) {
@@ -368,18 +408,48 @@ class Operacoes {
                     response.dados.findIndex(function (item, index) {
 
                         if (item.unidade === unidade.id) {
+                            that.TreeAdicionarItem({
+                                sigla: 'ag_',
+                                id: item.id,
+                                titulo: item.nome,
+                                parentid: unidadade_id,
+                                tipo: 'agente',
+                                nome: item.nome,
+                                cor: '#533596',
+                                icone: 'fas fa-video'
+                            }, index);
+                        }
+                    });
+                });
+            }
+        })
+    }
 
-                            let newid = 'ag_' + item.id;
-                            tree.addItem(newid, item.nome, unidadade_id, index);
-                            tree.setUserData(newid, 'id', item.id);
-                            tree.setUserData(newid, 'tipo', 'agente');
-                            tree.setUserData(newid, 'nome', item.nome);
-                            tree.setIconColor(newid, '#533596');
-                            tree.setItemIcons(newid, {
-                                file: "fas fa-video",
-                                folder_opened: "fas fa-video",
-                                folder_closed: "fas fa-video"
-                            })
+    CarregaFiltros(unidades) {
+
+        let that = this;
+
+        this.liteapi.source = "/smart/public/operacoes_filtros";
+        this.liteapi.Listar({
+            callback: function (response) {
+
+                unidades.filter(function (unidade) {
+
+                    let unidadade_id = 'un_' + unidade.id + '_' + 'filtros';
+
+                    response.dados.findIndex(function (item, index) {
+
+                        if (item.unidade === unidade.id) {
+                            that.TreeAdicionarItem({
+                                sigla: 'fi_',
+                                id: item.id,
+                                titulo: item.nome,
+                                parentid: unidadade_id,
+                                tipo: 'filtro',
+                                nome: item.nome,
+                                cor: '#eba00c',
+                                icone: 'fas fa-filter'
+                            }, index);
                         }
                     });
                 });
