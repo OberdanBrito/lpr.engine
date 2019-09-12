@@ -12,5 +12,6 @@
     <orderEntry type="library" name="numeral" level="application" />
     <orderEntry type="library" name="pt-br" level="application" />
     <orderEntry type="library" name="liteapi" level="application" />
+    <orderEntry type="library" name="ace" level="application" />
   </component>
 </module>

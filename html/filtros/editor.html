@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Editor de filtros</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="editor">
+    # LPR Engine
+    # Exemplo de filtro usando o editor de critérios
+
+    lpr: [
+        rede: 1;
+        unidade: 13;
+        id: 1;
+        min_confianca: 0.9;
+        coordenadas_x: 1500 # Verifica o sentido da passagem
+    ]
+
+    arquivo_movimento: [
+        data == lpr.filedate::date
+        account_number == arquivo_cadastro.account_number
+        operador: vazio
+    ]
+
+    regras: [
+        (horario_operador - lpr.filedate::time) >= 240 # Tempo superior a 4 minutos
+    ]
+</div>
+
+<script src="http://localhost/smart/lib/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    let editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.session.setMode("ace/mode/yaml");
+</script>
+</body>
+</html>

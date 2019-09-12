@@ -15,8 +15,8 @@ class Filtros {
                 {type: 'input', name: 'nome', label: 'Nome:', inputWidth:400, required: true},
             ]},
             {type: 'block', offsetTop:0, list:[
-                {type: 'combo', name: 'modelo', label: 'Modelo:'},
-                {type: 'container', name: 'definicao', label: 'Definição:'},
+                {type: 'combo', name: 'modelo', label: 'Modelo:', inputWidth:400},
+                {type: 'input', name: 'definicao', label: 'Definição:', inputWidth:400, rows:5, readonly: true, style: 'color:red'},
             ]},
             {type: 'block', offsetTop:0, list:[
                 {type: 'input', name: 'conceito', label: 'Conceito:', inputWidth:400, rows:4, required: true},
@@ -46,7 +46,7 @@ class Filtros {
         this.wins.createWindow({
             id: 'adicionar',
             width: 520,
-            height: 500,
+            height: 530,
             center: true,
             move: false,
             resize: false,
@@ -65,8 +65,11 @@ class Filtros {
             ],
             onClick: function () {
 
+                let dados = that.formidentificacao.getFormData();
+                dados.unidade = that.node.unidade;
+
                 that.liteapi.Adicionar({
-                    data: that.formidentificacao.getFormData(),
+                    data: dados,
                     last: 'id',
                     callback: function (response) {
 
@@ -85,62 +88,30 @@ class Filtros {
             }
         });
 
-        this.formidentificacao = this.wins.window('adicionar').attachForm(this.identificacao);
+        this.formidentificacao = this.wins.window('adicionar').attachForm();
+        this.formidentificacao.loadStruct(this.identificacao, function () {
+
+            let combo_modelo;
+            new Modelos().Listar(function (response) {
+
+                combo_modelo = that.formidentificacao.getCombo('modelo');
+                response.filter(function (item) {
+                    combo_modelo.addOption(item.id, item.nome);
+                });
+
+                combo_modelo.attachEvent("onChange", function(value){
+                    that.formidentificacao.setItemValue('definicao', response.find(x=>x.id === value).definicao);
+                });
+
+            });
+
+
+        });
+
+
     }
 
     Desativar() {
-
-        let that = this;
-
-        this.wins.createWindow({
-            id: 'desativar',
-            width: 480,
-            height: 350,
-            center: true,
-            move: false,
-            resize: false,
-            modal: true,
-            park: false,
-            caption: 'Desativar',
-        });
-
-        this.wins.window('desativar').button('park').hide();
-        this.wins.window('desativar').button('minmax').hide();
-
-        this.wins.window('desativar').attachToolbar({
-            icon_path: "./img/operacoes/toolbar/",
-            items: [
-                {id: "confirmar", type: "button", text: "Confirmar", img: "salvar.svg"}
-            ],
-            onClick: function () {
-
-                that.liteapi.Atualizar({
-                    data: {
-                        purgedate: new Date().format("yyyy-mm-dd HH:MM:ss"),
-                        purgeuser: JSON.parse(sessionStorage.auth).user.login,
-                        purgereason: form.getItemValue('purgereason')
-                    },
-                    filter: {
-                        id: that.node.id
-                    },
-                    last: 'id',
-                    callback: function (response) {
-                        if (response.dados.length > 0) {
-                            that.wins.window('desativar').close();
-                            dispatchEvent(
-                                new CustomEvent('AoModificar',
-                                    {
-                                        detail: response
-                                    })
-                            );
-                        }
-                    }
-                })
-            }
-        });
-
-        let form = this.wins.window('desativar').attachForm(that.desativacao);
-        form.getContainer('icon').innerHTML = "<!--suppress ALL --><img alt='' src='./img/operacoes/toolbar/remover.svg' />"
-
+        new Desativacao(this.liteapi, this.node.id);
     }
 }
